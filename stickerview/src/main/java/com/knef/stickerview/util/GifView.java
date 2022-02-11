@@ -87,9 +87,7 @@ public class GifView extends View implements View.OnTouchListener {
          * Starting from HONEYCOMB(Api Level:11) have to turn off HW acceleration to draw
          * Movie on Canvas.
          */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         final TypedArray array = context.obtainStyledAttributes(attrs,
                 R.styleable.GifView, defStyle, R.style.Widget_GifView);
@@ -125,7 +123,7 @@ public class GifView extends View implements View.OnTouchListener {
         if (this.mPaused) {
             this.mPaused = false;
 
-            /**
+            /*
              * Calculate new movie start time, so that it resumes from the same
              * frame.
              */
