@@ -25,10 +25,10 @@ public class AutoResizeTextView extends TextView {
          *         text, it takes less space than {@code availableSpace}, > 0
          *         otherwise
          */
-        public int onTestSize(int suggestedSize, RectF availableSpace);
+        int onTestSize(int suggestedSize, RectF availableSpace);
     }
 
-    private RectF mTextRect = new RectF();
+    private final RectF mTextRect = new RectF();
 
     private RectF mAvailableSpaceRect;
 
@@ -257,7 +257,7 @@ public class AutoResizeTextView extends TextView {
         int lastBest = start;
         int lo = start;
         int hi = end - 1;
-        int mid = 0;
+        int mid;
         while (lo <= hi) {
             mid = (lo + hi) >>> 1;
             int midValCmp = sizeTester.onTestSize(mid, availableSpace);

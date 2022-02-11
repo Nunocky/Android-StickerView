@@ -43,7 +43,7 @@ public abstract class StickerView extends FrameLayout {
     private ImageView iv_delete;
     private ImageView iv_flip;
 
-    // For scalling
+    // For scaling
     private float this_orgX = -1, this_orgY = -1;
     private float scale_orgX = -1, scale_orgY = -1;
     private double scale_orgWidth = -1, scale_orgHeight = -1;
@@ -118,21 +118,21 @@ public abstract class StickerView extends FrameLayout {
                         convertDpToPixel(BUTTON_SIZE_DP, getContext()),
                         convertDpToPixel(BUTTON_SIZE_DP, getContext())
                 );
-        iv_scale_params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        iv_scale_params.gravity = Gravity.BOTTOM | Gravity.END;
 
         FrameLayout.LayoutParams iv_delete_params =
                 new FrameLayout.LayoutParams(
                         convertDpToPixel(BUTTON_SIZE_DP, getContext()),
                         convertDpToPixel(BUTTON_SIZE_DP, getContext())
                 );
-        iv_delete_params.gravity = Gravity.TOP | Gravity.RIGHT;
+        iv_delete_params.gravity = Gravity.TOP | Gravity.END;
 
         FrameLayout.LayoutParams iv_flip_params =
                 new FrameLayout.LayoutParams(
                         convertDpToPixel(BUTTON_SIZE_DP, getContext()),
                         convertDpToPixel(BUTTON_SIZE_DP, getContext())
                 );
-        iv_flip_params.gravity = Gravity.TOP | Gravity.LEFT;
+        iv_flip_params.gravity = Gravity.TOP | Gravity.START;
 
         this.setLayoutParams(this_params);
         this.addView(getMainView(), iv_main_params);
@@ -154,17 +154,13 @@ public abstract class StickerView extends FrameLayout {
                 }
             }
         });
-        this.iv_flip.setOnClickListener(new View.OnClickListener() {
+        this.iv_flip.setOnClickListener(view -> {
+            Log.v(TAG, "flip the view");
 
-            @Override
-            public void onClick(View view) {
-                Log.v(TAG, "flip the view");
-
-                View mainView = getMainView();
-                mainView.setRotationY(mainView.getRotationY() == -180f ? 0f : -180f);
-                mainView.invalidate();
-                requestLayout();
-            }
+            View mainView = getMainView();
+            mainView.setRotationY(mainView.getRotationY() == -180f ? 0f : -180f);
+            mainView.invalidate();
+            requestLayout();
         });
     }
 
@@ -174,7 +170,7 @@ public abstract class StickerView extends FrameLayout {
 
     protected abstract View getMainView();
 
-    private OnTouchListener mTouchListener = new OnTouchListener() {
+    private final OnTouchListener mTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             if (enableBorder) {
@@ -413,8 +409,8 @@ public abstract class StickerView extends FrameLayout {
 
     private class BorderView extends View {
 
-        private Rect border = new Rect();
-        private Paint borderPaint = new Paint();
+        private final Rect border = new Rect();
+        private final Paint borderPaint = new Paint();
 
         public BorderView(Context context) {
             super(context);
@@ -435,10 +431,10 @@ public abstract class StickerView extends FrameLayout {
 
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) this.getLayoutParams();
             Log.v(TAG, "params.leftMargin: " + params.leftMargin);
-            border.left = (int) this.getLeft() - params.leftMargin;
-            border.top = (int) this.getTop() - params.topMargin;
-            border.right = (int) this.getRight() - params.rightMargin;
-            border.bottom = (int) this.getBottom() - params.bottomMargin;
+            border.left = this.getLeft() - params.leftMargin;
+            border.top = this.getTop() - params.topMargin;
+            border.right = this.getRight() - params.rightMargin;
+            border.bottom = this.getBottom() - params.bottomMargin;
             borderPaint.setStrokeWidth(6);
             borderPaint.setColor(Color.WHITE);
             borderPaint.setStyle(Paint.Style.STROKE);
